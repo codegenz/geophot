@@ -1,0 +1,19 @@
+.style1{ border: 1px solid #000000; background-color: #FFFF00; }
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;    
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+html,body {
+    background: #dee4e9 url(bg_tile.png) 0 0 repeat
+}
+.container2{
+	background-color: rgba(255,255,255,0.86) !important;
+}
