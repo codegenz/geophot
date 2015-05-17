@@ -5,7 +5,8 @@
  * Date: 15.05.15
  * Time: 0:25
  */
-include('/include/configuration.php');
+set_include_path("include");
+include('configuration.php');
 
 if (isset($_POST['lat']) && isset($_POST['lon'])) {
     $user_lat =  $_POST['lat'];
