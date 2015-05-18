@@ -1,13 +1,45 @@
 <script type="text/javascript">
-    DG.then(function() {
-        map = DG.map('map', {
-            'center': [59.8845503, 30.3264758],
-            'zoom': 10
-        });
+//    DG.then(function() {
+//        map = DG.map('map', {
+//            'center': [59.8845503, 30.3264758],
+//            'zoom': 10
+//        });
+//
+//        function getCoords(e) {
+//            lat_data = e.latlng.lat.toString();
+//            lon_data = e.latlng.lng.toString();
+//            $.ajax({
+//                type: "POST",
+//                url: "social.php",
+//                data: "lat=" + lat_data + "&lon=" + lon_data,
+//                success: function(msg){
+//                    var json_x = $.parseJSON(msg);
+//                    var div = document.getElementById('insta_photos');
+//                    var htmldata = '';
+//                    json_x.forEach(function(entry) {
+//                        htmldata +=  entry.data;
+//                        DG.marker([entry.lat, entry.lon]).addTo(map).bindPopup(entry.data);
+//                    });
+//                    div.innerHTML = htmldata;
+//                }
+//            });
+//        }
+//        map.on('click', getCoords);
+//    });
+    ymaps.ready(init);
+    var myMap;
 
-        function getCoords(e) {
-            lat_data = e.latlng.lat.toString();
-            lon_data = e.latlng.lng.toString();
+    function init(){
+        myMap = new ymaps.Map("yamap", {
+            center: [55.76, 37.64],
+            zoom: 7
+        });
+        myMap.events.add('click',function(c) {
+            //myCollection.removeAll();
+            //alert(c.get('coords'));
+            coords = c.get('coords');
+            lat_data = coords[0];
+            lon_data = coords[1];
             $.ajax({
                 type: "POST",
                 url: "social.php",
@@ -16,19 +48,27 @@
                     var json_x = $.parseJSON(msg);
                     var div = document.getElementById('insta_photos');
                     var htmldata = '';
+                    var myCollection = new ymaps.GeoObjectCollection({}, {
+                        preset: 'islands#redIcon', //все метки красные
+                        draggable: false // и их можно перемещать
+                    });
+                    myCollection.removeAll();
                     json_x.forEach(function(entry) {
                         htmldata +=  entry.data;
-                        DG.marker([entry.lat, entry.lon]).addTo(map).bindPopup(entry.data);
+                        myCollection.add(new ymaps.Placemark([entry.lat, entry.lon], {
+                            balloonContent: entry.data
+                        }));
                     });
+                    myMap.geoObjects.add(myCollection);
                     div.innerHTML = htmldata;
                 }
             });
-        }
-        map.on('click', getCoords);
-    });
+        });
+    }
 </script>
 
-<div id="map" style="width: 1100px; height: 600px; border: 1px solid #CCC;"></div>
+<!-- <div id="map" style="width: 1100px; height: 600px; border: 1px solid #CCC;"></div> -->
+<div id="yamap" style="width: 1100px; height: 600px"></div>
 <br />
 <div id="insta_photos" style="border: 1px"></div>
 <hr>
