@@ -1,3 +1,5 @@
 /vendor/
 /.idea/
+/web/cache/
+/web/include/configuration.php
 composer.phar

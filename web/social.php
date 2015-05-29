@@ -12,8 +12,8 @@ if (isset($_POST['lat']) && isset($_POST['lon'])) {
     $user_lat =  $_POST['lat'];
     $user_lon = $_POST['lon'];
 
-    $insta_photos = download('https://api.instagram.com/v1/media/search?lat='.$user_lat.'&lng='.$user_lon.'&DISTANCE=1000&access_token='.$instagram_token.'&count=50');
-    $vk_photos = download('https://api.vk.com/method/photos.search?lat='.$user_lat.'&long='.$user_lon.'&radius=800&count=50&offset=0&&access_token='.$vk_token);
+    $insta_photos = download('https://api.instagram.com/v1/media/search?lat='.$user_lat.'&lng='.$user_lon.'&DISTANCE=1000&access_token='.$instagram_token.'&count=75');
+    $vk_photos = download('https://api.vk.com/method/photos.search?lat='.$user_lat.'&long='.$user_lon.'&radius=800&count=75&offset=0&&access_token='.$vk_token);
 
     $fave_photos_data = json_decode($insta_photos, true);
     $vk_photos_data = json_decode($vk_photos, true);
