@@ -7,7 +7,7 @@
 Для реализации фотогаллереи был использован [fancybox](http://fancybox.net/)
 
 P.S. Программа создана исключительно для знакомства с API:
-* [2GIS](http://api.2gis.ru/)
+* [Yandex maps](https://tech.yandex.ru/maps/)
 * [Instagram](https://instagram.com/developer#)
 * [Вконтакте](https://vk.com/dev)
 

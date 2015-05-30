@@ -1,29 +1,38 @@
 <script type="text/javascript">
     ymaps.ready(init);
     var myMap;
-
+    var radius = 800;
     function init(){
         myMap = new ymaps.Map("yamap", {
             center: [59.9300759, 30.2518849],
             zoom: 11
         });
+
+        $('.radius').on('click', function(e)
+        {
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+            radius = $(this).data('radius');
+        });
+
         myMap.events.add('click',function(c) {
-            //myCollection.removeAll();
-            //alert(c.get('coords'));
-            console.log($("[name='my-checkbox']").bootstrapSwitch('state'));
+            myMap.geoObjects.removeAll();
+            s_vk = $("[name='vk-checkbox']").bootstrapSwitch('state');
+            s_insta = $("[name='insta-checkbox']").bootstrapSwitch('state');
             coords = c.get('coords');
             lat_data = coords[0];
             lon_data = coords[1];
+            radCircle = new ymaps.Circle([[lat_data, lon_data],radius]);
+            myMap.geoObjects.add(radCircle);
             $.ajax({
                 type: "POST",
                 url: "social.php",
-                data: "lat=" + lat_data + "&lon=" + lon_data,
+                data: "lat=" + lat_data + "&lon=" + lon_data + "&vk=" + s_vk + "&insta=" + s_insta + "&radius=" + radius,
                 success: function(msg){
-                    var json_x = $.parseJSON(msg);
+                    json_x = $.parseJSON(msg);
                     var div = document.getElementById('insta_photos');
                     var htmldata = '';
                     var myCollection = new ymaps.GeoObjectCollection({}, {
-                        preset: 'islands#redIcon', //все метки красные
                         draggable: false // и их можно перемещать
                     });
                     myCollection.removeAll();
@@ -31,7 +40,8 @@
                         htmldata +=  entry.data;
                         myCollection.add(new ymaps.Placemark([entry.lat, entry.lon], {
                             balloonContent: entry.data
-                        }));
+                        },{preset: "islands#blackCircleDotIcon"}
+                        ));
                     });
                     myMap.geoObjects.add(myCollection);
                     div.innerHTML = htmldata;
@@ -40,7 +50,37 @@
         });
     }
 </script>
-<input type="checkbox" name="my-checkbox" checked>
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+        <h4 class="panel-title">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Настройки
+            </a>
+        </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="panel-body" style="width:100%; clear:both; background: #DCDCDC;">
+            <div id="divline">
+                <p>Vkontakte:</p> <input type="checkbox" name="vk-checkbox" checked> <br /><br />
+                <p>Instagram:</p> <input type="checkbox" name="insta-checkbox" checked> <br />
+            </div>
+            <div id="divline">
+                Радиус поиска:
+                <nav>
+                <ul class="pagination">
+                    <li class="radius" data-radius="10"><a href="#">10m</a></li>
+                    <li class="radius" data-radius="100"><a href="#">100m</a></li>
+                    <li class="radius active" data-radius="800"><a href="#">800m</a></li>
+                    <li class="radius" data-radius="6000"><a href="#">6000m</a></li>
+                    <li class="radius" data-radius="50000"><a href="#">50000m</a></li>
+                </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div id="yamap" style="width: 1100px; height: 600px"></div>
 <br />
 <div id="insta_photos" style="border: 1px"></div>
