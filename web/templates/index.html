@@ -36,7 +36,7 @@
                         draggable: false // и их можно перемещать
                     });
                     myCollection.removeAll();
-                    json_x.forEach(function(entry) {
+                    $.each(json_x, function(index, entry) {
                         htmldata +=  entry.data;
                         myCollection.add(new ymaps.Placemark([entry.lat, entry.lon], {
                             balloonContent: entry.data

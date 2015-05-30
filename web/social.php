@@ -36,7 +36,7 @@ if (isset($_POST['lat']) && isset($_POST['lon'])) {
     }
     if ($s_vk = "true")
     {
-    $vk_photos = download('https://api.vk.com/method/photos.search?lat='.$user_lat.'&long='.$user_lon.'&radius='.$radius.'&sort=1');
+    $vk_photos = download('https://api.vk.com/method/photos.search?lat='.$user_lat.'&long='.$user_lon.'&radius='.$radius.'&sort=1&count=1000');
     $vk_photos_data = json_decode($vk_photos, true);
     $vk_photos_array = $vk_photos_data['response'];
     for ($i=1; $i<count($vk_photos_array); $i++) {
