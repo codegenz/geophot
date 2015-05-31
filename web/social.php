@@ -34,7 +34,7 @@ if (isset($_POST['lat']) && isset($_POST['lon'])) {
         $insta_prep[$i]['link'] = $photo_link;
     }
     }
-    if ($s_vk = "true")
+    if ($s_vk == "true")
     {
     $vk_photos = download('https://api.vk.com/method/photos.search?lat='.$user_lat.'&long='.$user_lon.'&radius='.$radius.'&sort=1&count=1000');
     $vk_photos_data = json_decode($vk_photos, true);
